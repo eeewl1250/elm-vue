@@ -12,19 +12,22 @@
         <router-link to="/seller">商家</router-link>
       </div>
     </div>
-    <router-view></router-view>
+    <router-view :seller="seller"></router-view>
+    <cart :seller="seller"></cart>
   </div>
 </template>
 
 <script>
 import header from '@/components/header/header'
+import cart from '@/components/cart/cart'
 
 const ERR_OK = 0
 
 export default {
   name: 'App',
   components: {
-    'v-header': header
+    'v-header': header,
+    cart
   },
   data () {
     return {
@@ -52,6 +55,7 @@ export default {
     width: 100%
     height: 40px
     line-height: 40px
+    background-color: #ffffff
     border-1px(rgba(7, 17, 27, 0.1))
     .tab-item
       text-align: center

@@ -60,10 +60,22 @@ star-bg($size)
       margin: 0 6px
       background-size: w
       star-bg('24')
+    &.small-ratings
+      width: w = 12px
+      height: w
+      margin: 0 3px
+      background-size: w
+      star-bg('24')
     &.medium
       width: w = 18px
       height: w
       margin: 0 9px
+      background-size: w
+      star-bg('36')
+    &.medium-ratings
+      width: w = 18px
+      height: w
+      margin: 0 4px
       background-size: w
       star-bg('36')
     &.large
@@ -72,4 +84,8 @@ star-bg($size)
       margin: 0 12px
       background-size: w
       star-bg('48')
+    &:first-child
+      margin-left: 0
+    &:last-child
+      margin-right: 0
 </style>

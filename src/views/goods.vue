@@ -9,7 +9,7 @@
           :class="{current: currentIndex === index}"
           @click="selectMenu(index)"
         >
-          <span class="text">
+          <span class="text border-1px">
             <support-icon v-if="item.type >= 0" :type="item.type" icon-style="3"></support-icon>
             {{ item.name }}
           </span>
@@ -24,8 +24,8 @@
         >
           <div class="title">{{ item.name }}</div>
           <ul>
-            <li class="food-item" v-for="(food, idx) in item.foods" :key="idx">
-              <div class="image">
+            <li class="food-item border-1px" v-for="(food, idx) in item.foods" :key="idx">
+              <div class="image" @click="showFoodDetail(food, [index, idx])">
                 <img :src="food.image" width="57" height="57">
               </div>
               <div class="content">
@@ -39,34 +39,60 @@
                   <span class="new"><span class="symbol">¥</span>{{ food.price }}</span>
                   <span class="old" v-if="food.oldPrice"><span class="symbol">¥</span>{{ food.oldPrice }}</span>
                 </div>
+                <div class="quantity">
+                  <cart-control :count="foods[index][idx].count"
+                                @addCount="addCount([index, idx])"
+                                @reduceCount="reduceCount([index, idx])"
+                  ></cart-control>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </scroll-list>
+    <food :food="showedFood" v-if="isDetailShowed" @hideDetail="hideFoodDetail"></food>
   </div>
 </template>
 
 <script>
 import scrollList from '@/components/scrollList/scrollList'
 import supportIcon from '@/components/supportIcon/supportIcon'
+import cart from '@/components/cart/cart'
+import cartControl from '@/components/cartControl/cartControl'
+import viewFood from '@/views/food'
 
 const ERR_OK = 0
 
 export default {
   name: 'Goods',
+  props: {
+    seller: {
+      type: Object
+    }
+  },
   components: {
     supportIcon,
     'scroll-list': scrollList,
-    cart
+    cart,
+    'cart-control': cartControl,
+    food: viewFood
   },
   data () {
     return {
       goods: [],
       typeItemHeight: [],
       foodsScrollY: 0,
-      currentIndex: 0
+      currentIndex: 0,
+      // foods: [],
+      foodsQuantity: 0,
+      isDetailShowed: false,
+      showedFood: {}
+    }
+  },
+  computed: {
+    foods () {
+      return this.$store.state.foods
     }
   },
   watch: {
@@ -92,6 +118,7 @@ export default {
         res = res.data
         if (res.errno === ERR_OK) {
           this.goods = res.data
+          this._initFoods()
           this.$nextTick(() => {
             this._calculateHeight()
           })
@@ -99,6 +126,21 @@ export default {
       })
   },
   methods: {
+    _initFoods () {
+      let foods = []
+      for (let good of this.goods) {
+        let typeFoods = []
+        for (let food of good.foods) {
+          typeFoods.push({
+            name: food.name,
+            price: food.price,
+            count: 0
+          })
+        }
+        foods.push(typeFoods)
+      }
+      this.$store.dispatch('initFoods', foods)
+    },
     _calculateHeight () {
       let typeItems = this.$refs['type-items'].getElementsByClassName('type-item')
       Array.prototype.forEach.call(typeItems, item => {
@@ -111,13 +153,37 @@ export default {
     },
     getFoodsScrollY (scrollY) {
       this.foodsScrollY = scrollY
+    },
+    addCount (index) {
+      this.$store.dispatch('addFoodsCountByOne', index)
+    },
+    reduceCount (index) {
+      this.$store.dispatch('reduceFoodsCountByOne', index)
+    },
+    // changeQuantity ([index, idx], args) {
+    //   //this.foods[index][idx].count = args[0]
+    //   this.$store.dispatch('setFoodsCount', {
+    //     index: {
+    //       i: index,
+    //       j: idx
+    //     },
+    //     count: args[0]
+    //   })
+    // },
+    showFoodDetail (food, index) {
+      this.isDetailShowed = true
+      this.showedFood = food
+      this.showedFood.index = index
+    },
+    hideFoodDetail (isDetailShowed) {
+      this.isDetailShowed = isDetailShowed
     }
   }
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-@import '../../common/stylus/mixin.styl'
+@import '../common/stylus/mixin.styl'
 
 .goods
   display: flex
@@ -168,6 +234,7 @@ export default {
           width: 57px
         .content
           flex: 1
+          position: relative
           margin-left: 10px
           .name
             margin-top: 2px
@@ -205,4 +272,6 @@ export default {
               color: #93999f
               .symbol
                 font-weight: normal
+          .quantity
+            position: relative
 </style>

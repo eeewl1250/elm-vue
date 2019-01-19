@@ -37,9 +37,6 @@ export default {
     },
     vScrollToEl (scrollToEl, time) {
       this.scroll.scrollToElement(scrollToEl, time)
-    },
-    vScrollTo (y, time) {
-      this.scroll.scrollTo(0, y, time)
     }
   }
 }
