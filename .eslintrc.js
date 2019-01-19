@@ -24,8 +24,6 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    // the line break must be placed before the operator
-    'operator-linebreak': 'before'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
 }
