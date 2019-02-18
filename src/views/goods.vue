@@ -84,10 +84,10 @@ export default {
       typeItemHeight: [],
       foodsScrollY: 0,
       currentIndex: 0,
-      // foods: [],
       foodsQuantity: 0,
       isDetailShowed: false,
-      showedFood: {}
+      showedFood: {},
+      resizeTimer: false
     }
   },
   computed: {
@@ -160,16 +160,6 @@ export default {
     reduceCount (index) {
       this.$store.dispatch('reduceFoodsCountByOne', index)
     },
-    // changeQuantity ([index, idx], args) {
-    //   //this.foods[index][idx].count = args[0]
-    //   this.$store.dispatch('setFoodsCount', {
-    //     index: {
-    //       i: index,
-    //       j: idx
-    //     },
-    //     count: args[0]
-    //   })
-    // },
     showFoodDetail (food, index) {
       this.isDetailShowed = true
       this.showedFood = food
@@ -198,13 +188,12 @@ export default {
     .menu-item
       display: table
       width: 56px
-      min-height: 54px
       padding: 0 12px
       background-color: #f3f5f7
       .text
         display: table-cell
         vertical-align: middle
-        padding: 12px 0
+        padding: 21px 0
         font-size: 12px
         border-1px(rgba(7, 17, 27, 0.1))
       &.current
