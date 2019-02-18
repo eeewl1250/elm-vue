@@ -22,7 +22,7 @@
           <li class="border-1px" v-for="(food, fKey) in foodsList" :key="fKey" v-if="food.count">
             <div class="food-info">
               <span class="name">{{ food.name }}</span>
-              <span class="food-price"><span class="unit">￥</span>{{ food.price }}</span>
+              <span class="food-price"><span class="unit">￥</span>{{ food.price * food.count }}</span>
             </div>
             <div class="control-bar">
               <cart-control :count="food.count"
