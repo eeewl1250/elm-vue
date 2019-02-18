@@ -125,6 +125,19 @@ export default {
         }
       })
   },
+  mounted () {
+    this.$nextTick(() => {
+      window.onresize = () => {
+        if (!this.resizeTimer) {
+          this.resizeTimer = true
+          this.$router.go(0)
+          setTimeout(() => {
+            this.resizeTimer = false
+          }, 400)
+        }
+      }
+    })
+  },
   methods: {
     _initFoods () {
       let foods = []
