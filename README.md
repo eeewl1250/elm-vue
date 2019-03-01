@@ -1,21 +1,22 @@
-# elm-vue
+<p align="center">
+    <a href="https://github.com/eeewl1250/elm-vue">
+        <img src="https://s2.ax1x.com/2019/03/02/kbUFT1.jpg" width="100">
+    </a>
+</p>
 
-> A Vue.js project
+<p align="center">基于 Vue2 + Vue-Cli2 + Vuex + Vue-router, <br />仿写饿了么移动端商家页面</p>
 
-## Build Setup
+##
+- 项目地址：[github](https://github.com/eeewl1250/elm-vue)
+- 演示地址：[demo](http://eeewl1250.gitee.io/eleme/#/goods)
 
-``` bash
-# install dependencies
+## 项目运行
+```
 npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
+npm run serve
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 库
+* [Vuex](https://vuex.vuejs.org/): Vue.js的官方状态管理方案。
+* [Vue-router](https://router.vuejs.org/): Vue.js的官方路由管理器。
